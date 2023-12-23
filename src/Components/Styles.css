@@ -1,0 +1,29 @@
+.box{
+    box-shadow: 1px 2px 4px black;
+}
+
+.SliderImageControl{
+    margin: 5px;
+}
+
+.description{
+    margin: 5px;
+}
+
+.boarder{
+    background-color: aquamarine;
+    height: 25px;
+}
+
+.authcent{
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.authcard{
+    padding: 50px;
+    box-shadow: 5px;
+}

@@ -1,0 +1,16 @@
+.Top-Container{
+    padding: 25px;
+    border-radius: 5px;
+    background-color: aquamarine;
+    margin: 20px;
+}
+
+.Description{
+    margin: 10px;
+}
+
+.priceContainer{
+    margin: 5px;
+    background-color: aqua;
+    padding: 20px;
+}
