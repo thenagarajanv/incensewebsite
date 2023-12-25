@@ -1,9 +1,13 @@
 const Cart = require("./Models/Cart");
 const Incense = require("./Models/Incense");
+const Winter = require("./Models/Winter");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const Oil = require("./Models/FragranceOil");
+const Decor = require("./Models/Decor");
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 mongoose
@@ -18,8 +22,34 @@ app.get("/", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+app.get("/Winter", (req, res) => {
+  Winter.find({})
+    .then((x) => res.json(x))
+    .catch((err) => res.json(err));
+});
+
+
 app.get("/Cart", (req, res) => {
     Cart.find({})
+      .then((x) => res.json(x))
+      .catch((err) => res.json(err));
+  });
+
+ app.get("/Incense", (req, res) => {
+    Incense.find({})
+      .then((x) => res.json(x))
+      .catch((err) => res.json(err));
+  });
+
+
+  app.get("/Oil", (req, res) => {
+    Oil.find({})
+      .then((x) => res.json(x))
+      .catch((err) => res.json(err));
+  });
+
+  app.get("/Decor", (req, res) => {
+    Decor.find({})
       .then((x) => res.json(x))
       .catch((err) => res.json(err));
   });
@@ -33,19 +63,188 @@ app.listen(3001, () => {
   console.log("server is running");
 });
 
-app.post("/Cart", async (req, res) => {
+app.post("/Incese", async (req, res) => {
   const { id } = req.body;
-  await Cart.create({ id });
+  const { name } = req.body;
+  const { regularprice } = req.body;
+  const { salesprice } = req.body;
+  const { category } = req.body;
+  const { unit } = req.body;
+  const { stocks } = req.body;
+  const { mainImage } = req.body;
+  const { sideImage1 } = req.body;
+  const { sideImage2 } = req.body;
+  const { description } = req.body;
+  await Incense.create({ id, name, regularprice, salesprice, category, unit, stocks, mainImage, sideImage1, sideImage2, description});
 });
 
+app.post("/Cart", async (req, res) => {
+  const { id } = req.body;
+  const { name } = req.body;
+  const { mainImage } = req.body;
+  const { amount } = req.body;
+  const { count } = req.body;
+  await Cart.create({ id, name, mainImage, amount, count });
+});
+
+
+// id:id, name:name, mainImage:mainImage, amount:amount, count:count
 // app.post("/productId", async (req, res) => {
 //   const { id } = req.body;
 //   await Incense.find({ id });
 // });
 
-// Cart.deleteMany().then(function(){
+// Oil.deleteMany().then(function(){
 //     console.log("Data Inserted");
 // });
+
+// Winter.deleteMany().then(function(){
+//     console.log("Data Inserted");
+// });
+
+// Winter.insertMany([
+//   {
+//     id: 300,
+//     name: "PHOOL WINTER CHEER GIFT BOX",
+//     price: 650,
+//     description: "Indulge in the goodness of winter with the Phool Winter Cheer Gift Box, crafted to invoke warm memories of seasons long gone by, with inclusions that celebrate winter’s magic in the most joyful and cozy manner.",
+//     mainImage: "https://phool.co/cdn/shop/files/006A0255copy.webp?v=1703141388" ,       
+//     fsImage: "https://phool.co/cdn/shop/files/006A0255copy.webp?v=1703141388",
+//     ssImage: "https://phool.co/cdn/shop/files/006A0267copy.webp?v=1703225932" ,
+//     inCart : false,
+//     count : 0,
+// },
+// {
+//     id: 301,
+//     name: "PHOOL MYSTICAL OASIS SOY CANDLE",
+//     price: 945,
+//     description: "Phool Mystical Oasis Candle is an aromatic blend of exotic essential oils and rare botanicals that will whisk you away into the depths of a magical winter wonderland. ",
+//     mainImage: "https://phool.co/cdn/shop/files/006A9924copy.webp?v=1700918286" ,       
+//     fsImage: "https://phool.co/cdn/shop/files/006A9943copy.webp?v=1700918286",
+//     ssImage: "https://phool.co/cdn/shop/files/006A0093copy2.webp?v=1700918286" ,
+//     inCart : false,
+//     count : 0,
+// },
+// {
+//    id: 302,
+//     name: "PHOOL ENERGISING VALLEY SOY CANDLE",
+//     price: 575,
+//     description: "Feel the essence of the cold winter breeze in mountain valleys with Phool Energising Valley Candle. Let its mossy yet delicately floral fragrance intertwined with notes of pine and evergreen, take you to rugged cliffs, deep waterfalls, and lush forests. ",
+//     mainImage: "https://phool.co/cdn/shop/files/006A0006copy2.webp?v=1700918010" ,       
+//     fsImage: "https://phool.co/cdn/shop/files/006A9999copy2.webp?v=1700918010",
+//     ssImage: "https://phool.co/cdn/shop/files/006A0077copy2.webp?v=17009180109" ,
+//     inCart : false,
+//     count : 0,
+// }
+// ])
+
+// Decor.insertMany([
+//     {
+//         id: 200,
+//         name: "BLACK PEARL VOTIVE",
+//         price: 1055,
+//         description: "Inspired by the lustrous beauty of pearls in the depths of the sea Just hang these delicate jute votives in your living room or patio to illuminate a festive dinner setting for you to enjoy with your friends and family!",
+//         mainImage: "https://phool.co/cdn/shop/products/2.webp?v=1669968151" ,       
+//         fsImage: "https://phool.co/cdn/shop/products/1.webp?v=1669968151",
+//         ssImage: "https://phool.co/cdn/shop/products/4.webp?v=1669962601" ,
+//         inCart : false,
+//         count : 0,
+//     },
+//     {
+//         id: 201,
+//         name: "HONEYCOMB GOLD VOTIVES( SET OF 2)",
+//         price: 965,
+//         description: "Inspired by the lustrous beauty of pearls in the depths of the sea Just hang these delicate jute votives in your living room or patio to illuminate a festive dinner setting for you to enjoy with your friends and family!",
+//         mainImage: "https://phool.co/cdn/shop/products/2_1.webp?v=1669968160" ,       
+//         fsImage: "https://phool.co/cdn/shop/products/3_1.webp?v=1669962870",
+//         ssImage: "https://phool.co/cdn/shop/products/4_1.webp?v=1669962870" ,
+//         inCart : false,
+//         count : 0,
+//     },
+//     {
+//        id: 202,
+//         name: "PHOOL MARBLE HAMSA GIFT BOX",
+//         price: 675,
+//         description: "Inspired by the lustrous beauty of pearls in the depths of the sea Just hang these delicate jute votives in your living room or patio to illuminate a festive dinner setting for you to enjoy with your friends and family!",
+//         mainImage: "https://phool.co/cdn/shop/files/product-07.jpg?v=1697094503" ,       
+//         fsImage: "https://phool.co/cdn/shop/files/006A5192copy.webp?v=1697094503",
+//         ssImage: "https://phool.co/cdn/shop/files/HAMSA.webp?v=1698576469" ,
+//         inCart : false,
+//         count : 0,
+//     },
+//     {
+//         id: 203,
+//         name: "PHOOL MARBLE JALI AROMA OIL BURNER",
+//         price: 2250,
+//         description: "Inspired by the lustrous beauty of pearls in the depths of the sea Just hang these delicate jute votives in your living room or patio to illuminate a festive dinner setting for you to enjoy with your friends and family!",
+//         mainImage: "https://phool.co/cdn/shop/files/3_d38db408-682c-4f41-8398-b7ee18f7bc59.webp?v=1698404396" ,       
+//         fsImage: "https://phool.co/cdn/shop/files/1_85c49be7-c396-49b3-b355-6abc68f380e9.webp?v=1698404396",
+//         ssImage: "https://phool.co/cdn/shop/files/5_80ede5c8-4c00-4896-b2f3-2565f85a6b6e.webp?v=1698403704" ,
+//         inCart : false,
+//         count : 0,
+//     },
+// ]
+// );
+// Oil.insertMany(
+//   [
+//     {
+//         id: 100,
+//         name: "PHOOL LEMONGRASS ESSENTIAL OIL (10ML)",
+//         price: 335,
+//         description: "It creates a calming environment, relieves exhaustion and rejuvenates the body & mind. Add a few drops of the essential oil in a diffuser to disperse the fragrance.",
+//         mainImage: "https://phool.co/cdn/shop/files/LemongrassessentialOils1.jpg?v=1702714000" ,       
+//         fsImage: "https://phool.co/cdn/shop/files/Lemongrass_02.webp?v=1702714000",
+//         ssImage: "https://phool.co/cdn/shop/files/LemongrassEssentialOil2.jpg?v=1702714000" ,
+//         inCart : false,
+//         count : 0,
+//     },
+//     {
+//         id: 101,
+//         name: "PHOOL FRANKINCENSE ESSENTIAL OIL (10ML)",
+//         price: 385,
+//         description: "It creates a calming environment, relieves exhaustion and rejuvenates the body & mind. Add a few drops of the essential oil in a diffuser to disperse the fragrance.",
+//         mainImage: "https://phool.co/cdn/shop/files/Frankincense-1.jpg?v=1702713826" ,       
+//         fsImage: "https://phool.co/cdn/shop/files/Frankincense_02.webp?v=1702713826",
+//         ssImage: "https://phool.co/cdn/shop/files/Frankincense-3.jpg?v=1702713826" ,
+//         inCart : false,
+//         count : 0,
+//     },
+//     {
+//         id: 102,
+//         name: "PHOOL TEA TREE ESSENTIAL OIL (10ML)",
+//         price: 335,
+//         description: "It creates a calming environment, relieves exhaustion and rejuvenates the body & mind. Add a few drops of the essential oil in a diffuser to disperse the fragrance.",
+//         mainImage: "https://phool.co/cdn/shop/files/006A5153copy_2.jpg?v=1702713092" ,       
+//         fsImage: "https://phool.co/cdn/shop/files/TeaTree_02.webp?v=1702713092",
+//         ssImage: "https://phool.co/cdn/shop/files/006A5155copy.jpg?v=1702713092" ,
+//         inCart : false,
+//         count : 0,
+//     },
+//     {
+//         id: 103,
+//         name: "PHOOL LAVENDER ESSENTIAL OIL (10ML)",
+//         price: 395,
+//         description: "It creates a calming environment, relieves exhaustion and rejuvenates the body & mind. Add a few drops of the essential oil in a diffuser to disperse the fragrance.",
+//         mainImage: "https://phool.co/cdn/shop/files/Lavender.jpg?v=1702714032" ,       
+//         fsImage: "https://phool.co/cdn/shop/files/Lavender_02.webp?v=1702714032",
+//         ssImage: "https://phool.co/cdn/shop/files/lavendercopy.jpg?v=1702714032" ,
+//         inCart : false,
+//         count : 0,
+//     },
+
+//     {
+//         id: 104,
+//         name: "PHOOL CINNAMON ESSENTIAL OIL (10ML)",
+//         price: 335,
+//         description: "It creates a calming environment, relieves exhaustion and rejuvenates the body & mind. Add a few drops of the essential oil in a diffuser to disperse the fragrance.",
+//         mainImage: "https://phool.co/cdn/shop/files/Cinnamon.jpg?v=1702714213" ,       
+//         fsImage: "https://phool.co/cdn/shop/files/Cinnamon_02.webp?v=1702714213",
+//         ssImage: "https://phool.co/cdn/shop/files/cinnamoncopy.jpg?v=1702714213" ,
+//         inCart : false,
+//         count : 0,
+//     },
+// ]
+// );
 
 // Incense.insertMany([
 //             {
@@ -246,3 +445,4 @@ app.post("/Cart", async (req, res) => {
 //     "inCart": false,
 //     "count": 1
 // }]);
+

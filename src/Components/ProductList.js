@@ -1,4 +1,5 @@
 import { Container } from "react-bootstrap";
+import { products } from "./productsData";
 import DisplayProducts from "./DisplayProduct";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -6,7 +7,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function ProductList(){
-    const[products,setProducts]=useState([]);
+    const [products, setProducts] = useState([]);
+    
     useEffect(()=>{
         axios.get('http://localhost:3001/').then(x => setProducts(x.data))
         .catch(err => console.log(err))

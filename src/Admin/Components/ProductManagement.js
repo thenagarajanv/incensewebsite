@@ -10,7 +10,9 @@ import './ProductManagement.css';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import AttachmentIcon from '@mui/icons-material/Attachment';
 import Dashboard from './Dashboard';
+import axios from "axios";
 import React, { useState } from 'react';
 
 function ProductManagement(){
@@ -50,8 +52,26 @@ function ProductManagement(){
     }else if(month == '12'){
         Month = "December";
     }
-    const [file, setFile] = useState();
 
+    const[productid, setProductId] = useState([]);
+    const[productname, setProductName] = useState([]);
+    const[regularprice, setRegularPrice] = useState([]);
+    const[salesprice, setSalesPrice] = useState([]);
+    const[category, setCategory] = useState([]);
+    const[stock, setStock] = useState([]);
+    const[unit, setUnit] = useState([]);
+    const[mainImage, setMainImage] = useState([]);
+    const[sideImage1, setSideImage1] = useState([]);
+    const[sideImage2, setSideImage2] = useState([]);
+    const[description, setDescription] = useState([]);
+    console.log(productid, productname, regularprice, salesprice, category, stock, unit, mainImage, sideImage1, sideImage2, description);
+
+    const[status, setStatus] =useState(true);
+    axios.post('http://localhost:3001/Incense', {productid, productname, regularprice, salesprice, category, stock, unit, mainImage, sideImage1, sideImage2, description})
+        .then((result) => console.log(result))
+        .catch((err) => console.log(err));
+        setStatus(false)
+        
     return(
         <div>
             <NavBar/>
@@ -67,64 +87,99 @@ function ProductManagement(){
             </div>
             <Container>
                 <Row xs={1} md={2}>
+                <Col>
+                        <Row>
+                            <Col>
+                            <label>Product ID</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">{<ShoppingBagIcon/>}</span>
+                                <input type="text" className='ProductID' onChange={(x)=>setProductId(x.target.value)} class="form-control" placeholder="Product ID" aria-label="Product Name" aria-describedby="basic-addon1"/>
+                            </div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Product Name</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                    <input type="text" class="form-control" placeholder="Product Name" onChange={(x)=>setProductName(x.target.value)} aria-label="Brand Name" aria-describedby="basic-addon1"/>
+                                </div>                
+                            </Col>
+                            <Col>
+                            <label>Brand Name</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                    <input type="text" class="form-control" placeholder="Brand Name" value="Goloka Incense" aria-label="Brand Name" aria-describedby="basic-addon1"/>
+                                </div>  
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Regular Price</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                    <input type="text" class="form-control" placeholder="Regular Price"  onChange={(x)=> setRegularPrice(x.target.value)} aria-label="Brand Name" aria-describedby="basic-addon1"/>
+                                </div>                
+                            </Col>
+                            <Col>
+                                <label>Sales Price</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                    <input type="text" class="form-control" placeholder="Sales Price" onChange={(x)=>setSalesPrice(x.target.value)}   aria-label="Brand Name" aria-describedby="basic-addon1"/>
+                                </div>  
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Category</label> 
+                                <div className='categoryDropdown'>
+                                    <select onChange={(x)=>setCategory(x.target.value)} style={{width:"100%", height:"35px", margin:"10px"}}>
+                                        <option value="defalut">Select Here</option>
+                                        <option value="incensesticks">Incense Sticks</option>
+                                        <option value="cones">Cones</option>
+                                        <option value="essentialoils">Esential Oils</option>
+                                    </select>
+                                </div>
+                            </Col>
+                            <Col>
+                                <label>Unit</label> 
+                                <div className='categoryDropdown'>
+                                    <select onChange={(x)=>setUnit(x.target.value)} style={{width:"100%", height:"35px", margin:"10px"}}>
+                                        <option value="defalut">Select Here</option>
+                                        <option value="piece">Piece</option>
+                                        <option value="box">Box</option>
+                                        <option value="kilogram">Kilogram</option>
+                                    </select>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Stocks</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                    <input type="text" class="form-control" placeholder="Stock" onChange={(x)=>setStock(x.target.value)}   aria-label="Stock" aria-describedby="basic-addon1"/>
+                                </div>  
+                            </Col>
+                        </Row>
+                    </Col>
                     <Col>
                         <h5>Product Settings</h5>
                         <p>Product Images</p>
                         <Row>
                             <Col>
-                                <Card style={{ width: '18rem', padding:"10px", display:"flex"}}>
-                                    <div class="d-flex justify-content-center">
-                                        <Card.Body>
-                                            <Card.Title>Main Image</Card.Title>
-                                            </Card.Body>
-                                            <div class="btn btn-primary btn-rounded">
-                                                <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-                                                <input className='Username' type="file" class="form-control d-none" id="customFile1" onchange={(e) => setFile(e.target.files[0])} />
-                                                
-                                            </div>
-                                    </div>
-                                </Card>
+                                <span class="input-group-text" id="basic-addon1" style={{width:"100%", height:"35px", margin:"5px"}}>{<AttachmentIcon/>} Main Image</span>
+                                <input type="text" class="form-control" placeholder="Main Image URL" onChange={(x)=>setMainImage(x.target.value)} aria-label="Main Image" style={{width:"100%", height:"35px", margin:"5px"}} aria-describedby="basic-addon1"/>
                             </Col>
                             <Col>
-                                <Card style={{ width: '18rem', padding:"10px", display:"flex"}}>
-                                    <div class="d-flex justify-content-center">
-                                        <Card.Body>
-                                            <Card.Title>Side Image 1</Card.Title>
-                                        </Card.Body>
-                                        <div class="btn btn-primary btn-rounded">
-                                            <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-                                            <input className='Username' type="file" class="form-control d-none" id="customFile1" onchange="displaySelectedImage(event, 'selectedImage')" />
-                                        </div>
-                                    </div>
-                                </Card>
+                                <span class="input-group-text" id="basic-addon1" style={{width:"100%", height:"35px", margin:"5px"}}>{<AttachmentIcon/>} Side Image 1</span>
+                                <input type="text" class="form-control" placeholder="Side Image 1" onChange={(x)=>setSideImage1(x.target.value)}aria-label="Side Image 1" aria-describedby="basic-addon1" style={{width:"100%", height:"35px", margin:"5px"}}/>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <Card style={{ width: '18rem', padding:"10px", display:"flex"}}>
-                                    <div class="d-flex justify-content-center">
-                                        <Card.Body>
-                                            <Card.Title>Side Image 2</Card.Title>
-                                            </Card.Body>
-                                            <div class="btn btn-primary btn-rounded">
-                                                <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-                                                <input className='Username' type="file" class="form-control d-none" id="customFile1" onchange="displaySelectedImage(event, 'selectedImage')" />
-                                            </div>
-                                    </div>
-                                </Card>
-                            </Col>
-                            <Col>
-                                <Card style={{ width: '18rem', padding:"10px", display:"flex"}}>
-                                    <div class="d-flex justify-content-center">
-                                        <Card.Body>
-                                        <Card.Title>Side Image 3</Card.Title>
-                                        </Card.Body>
-                                        <div class="btn btn-primary btn-rounded">
-                                            <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-                                            <input className='Username' type="file" class="form-control d-none" id="customFile1" onchange="displaySelectedImage(event, 'selectedImage')" />
-                                        </div>
-                                    </div>
-                                </Card>
+                                <span class="input-group-text" id="basic-addon1" style={{width:"100%", height:"35px", margin:"5px"}}>{<AttachmentIcon/>} Side Image 2</span>
+                                <input type="text" class="form-control" placeholder="Side Image 2" onChange={(x)=>setSideImage2(x.target.value)}aria-label="Side Image 2" aria-describedby="basic-addon1" style={{width:"100%", height:"35px", margin:"5px"}} />                                    
                             </Col>
                         </Row>
                         <Row>
@@ -136,108 +191,9 @@ function ProductManagement(){
                                         <Form.Control
                                         as="textarea"
                                         placeholder="Context"
-                                        style={{ height: '150px'  }}
+                                        style={{ height: '80px'}}
                                         />
                                     </FloatingLabel>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col>
-                        <Row>
-                            <Col>
-                            <label>Product Name</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">{<ShoppingBagIcon/>}</span>
-                                <input type="text" class="form-control" placeholder="Product Name" aria-label="Product Name" aria-describedby="basic-addon1"/>
-                            </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <label>Brand Name</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                    <input type="text" class="form-control" placeholder="Brand Name" aria-label="Brand Name" aria-describedby="basic-addon1"/>
-                                </div>                
-                            </Col>
-                            <Col>
-                            <   label>Product Name</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                    <input type="text" class="form-control" placeholder="Product Name" aria-label="Brand Name" aria-describedby="basic-addon1"/>
-                                </div>  
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <label>Regular Price</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                    <input type="text" class="form-control" placeholder="Regular Price" aria-label="Brand Name" aria-describedby="basic-addon1"/>
-                                </div>                
-                            </Col>
-                            <Col>
-                            <   label>Sales Price</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                    <input type="text" class="form-control" placeholder="Sales Price" aria-label="Brand Name" aria-describedby="basic-addon1"/>
-                                </div>  
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <label>Category</label> 
-                                <div className='categoryDropdown'>
-                                    <select style={{width:"100%", height:"35px", margin:"2px"}}>
-                                        <option>Incense Sticks</option>
-                                        <option>Cones</option>
-                                        <option>Esential Oils</option>
-                                    </select>
-                                </div>
-                            </Col>
-                            <Col>
-                            <label>Stock Status</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">$</span>
-                                    <input type="Number" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <label>Quality In Stock</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                    <input type="text" class="form-control" placeholder="Regular Price" aria-label="Brand Name" aria-describedby="basic-addon1"/>
-                                </div>                
-                            </Col>
-                            <Col>
-                                <label>Unit</label> 
-                                <div className='categoryDropdown'>
-                                    <select style={{width:"100%", height:"35px", margin:"2px"}}>
-                                        <option>Pieces</option>
-                                        <option>Boxes</option>
-                                        <option>Kilogram</option>
-                                    </select>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form>
-                                    <Form.Check
-                                        type="switch"
-                                        id="custom-switch"
-                                        label="COD Only"
-                                    />
-                                </Form>
-                                <Form>
-                                    <Form.Check
-                                        type="switch"
-                                        id="custom-switch"
-                                        label="Online Payments Only"
-                                    />
-                                </Form>
                             </Col>
                         </Row>
                     </Col>

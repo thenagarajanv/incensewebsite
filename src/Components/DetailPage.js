@@ -22,7 +22,6 @@ function DetailPage() {
     const { id } = useParams();
 
     const handleAddToCart = () => {
-
         console.log(name, mainImage, amount, id);
         axios.post('http://localhost:3001/Cart', {id:id})
         .then((result) => console.log(result))

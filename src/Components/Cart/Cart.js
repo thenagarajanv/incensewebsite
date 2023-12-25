@@ -8,17 +8,13 @@ function Cart(){
   const [cartId, setCartId] = useState([]);
   
     useEffect(()=>{
-        axios.get('http://localhost:3001/Cart').then(x => setCartId(x.data))
+        axios.get('http://localhost:3001/Cart').then(x => console.log(x.data))
           .catch(err => console.log(err))
-        cartId.map(id => {
-
-          axios.post('http://localhost:3001/productId', {id}).then(product => setCartProducts(prevProducts=> [...prevProducts, product])).catch()
-        })
     }, []);
-    console.log(cartProducts);
-    console.log(cartId);
+    //axios.post('http://localhost:3001/productId', {id}).then(product => setCartProducts(prevProducts=> [...prevProducts, product])).catch()
+    // console.log(cartProducts);
+    // console.log(cartId);
     return (
-    
       <div>
       <SideBar/>
     </div>

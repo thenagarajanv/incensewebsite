@@ -17,7 +17,7 @@ function NavBar() {
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul style={{textDecoration:"none"}} class="navbar-nav me-auto mb-2 mb-lg-0 m-auto">
-                  <Link to="/Home">
+                  <Link to="/">
                     <h1 class="navbar-brand">
                         <Link to='/' ><img src={Phool} style={{height:"40px",width:"80px"}}></img></Link>
                     </h1>

@@ -5,6 +5,12 @@ import SideBar from './Components/SideBar';
 import SignUp from './Components/LoginAndSignUp/SignUp';
 import SignIn from './Components/LoginAndSignUp/SignIn';
 import Cart from './Components/Cart/Cart';
+import FragranceOil from './Components/FragranceOil';
+import Decor from './Components/Decor';
+import IncenseSticks from './Components/IncenseSticks';
+import WinterCollection from './Components/WinterCollection';
+import TrackOrder from './Components/TrackOrder';
+import Contact from './Components/Contact';
 import AdminDashboard from './Admin/AdminDashboard';
 import ProductManagement from './Admin/Components/ProductManagement';
 import Settings from './Admin/Components/Settings'
@@ -18,12 +24,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path='/' element={<AdminDashboard/>}/>
+        <Route path='/AdminDashboard' element={<AdminDashboard/>}/>
         <Route path='/Dashboard' element={<Dashboard/>}/>
         <Route path='/ProductManagement' element={<ProductManagement/>}/>
         <Route path='/Orders' element={<Orders/>}/>
         <Route path='/Customers' element={<Customers/>}/>
-        <Route path='/Settings' element={<Settings/>}/> */}
+        <Route path='/Settings' element={<Settings/>}/>
         
         <Route path='/' element={<Home />}/>
         <Route path='Cart' element={<Cart/>}/>
@@ -31,6 +37,12 @@ function App() {
         <Route path="SideBar" element={<SideBar />}/>
         <Route path='SignUp' element={<SignUp/>}/>
         <Route path='SignIn' element={<SignIn/>}/>
+        <Route path='IncenseSticks' element={<IncenseSticks/>}/>
+        <Route path='FragranceOil' element={<FragranceOil/>}/>
+        <Route path='Decor' element={<Decor/>}/>
+        <Route path='WinterCollection' element={<WinterCollection/>}/>
+        <Route path='Contact' element={<Contact/>}/>
+        <Route path='TrackOrder' element={<TrackOrder/>}/>
       </Routes>
     </BrowserRouter>
   );
