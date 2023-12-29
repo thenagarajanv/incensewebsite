@@ -292,6 +292,19 @@ const products = [
         inCart : false,
         count : 0,
     },
+    {
+    id: 192,
+    name: "Nagaraj INCENSE STICKS",
+    regularprice: 199,
+    salesprice: 99,
+    category : "Incense",
+    unit: "Box",
+    stocks : "100",
+    mainImage: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120" ,       
+    sideImage1: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
+    sideImage2: "https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
+    description: "Oudh Incense Sticks exude a dominant oriental-woody fragrance accompanied by soft floral notes of vanilla and musk. This rich aroma is born of a unique ecological process in the Aquilaria trees native to Southeast Asia. These trees secrete a protective resinous substance against a rare parasitic fungus, which after extraction, comes to be known as Oudh. Phool Oudh Natural Incense Sticks are an exquisite amalgamation of Oudh extractions, temple flowers, and natural essential oils. With a rich, earthy scent that has the power to soothe and de-stress. Handcrafted by our women flowercyclers with love and care.Phool Natural Incense Sticks pack consists of 40 units. Each stick is 25.4 cm in length with a long burning time of 40-45 minutes. Ideal for your daily meditation and spiritual rituals. Did you know, the Oudh fragrance was a favorite of even the European Royalty, especially King Louis The XIV, who loved it so dearly that he preferred to wash his clothes in it! Bring home the magic of this aristocratic scent with Phool Oudh Natural Incense Sticks.",
+    }
 ];
 
 export {products}

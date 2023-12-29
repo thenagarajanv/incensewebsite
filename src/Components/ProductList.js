@@ -5,19 +5,21 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { ColorRing } from "react-loader-spinner";
 function ProductList(){
     const [products, setProducts] = useState([]);
-    
+    const[isLoading, setIsLoading] = useState(true);
     useEffect(()=>{
-        axios.get('http://localhost:3001/').then(x => setProducts(x.data))
+        axios.get('http://localhost:3001/').then(setIsLoading(false)).then(x => setProducts(x.data))
         .catch(err => console.log(err))
     }, []);
 
     return(
         <div>
+            {isLoading ? <ColorRing /> :(
             <Container>
                 <Row>
+
                     {products.map((x) => (
                     <Col sm={4}>
         <DisplayProducts id={x.id} name={x.name} Image = {x.mainImage} price={x.price} des = {x.description} />
@@ -26,6 +28,8 @@ function ProductList(){
       ))}  
                 </Row>
             </Container>
+            )
+}
       
     </div>)
 }

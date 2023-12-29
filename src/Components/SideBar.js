@@ -4,20 +4,28 @@ import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { ToastContainer, toast } from 'react-toastify';
-import {getAuth, signOut} from "firebase/auth";
+// import {getAuth, signOut} from "firebase/auth";
 import 'react-toastify/dist/ReactToastify.css';
-
-function SideBar() {
-  const auth  = getAuth();
-  const handleLogOut = () =>{
-    signOut(auth)
-    .then(()=>{toast.success("Log Out Successfully");})
-    .catch((error) => {console.log(error);});
-  };
-
+import useSound from "use-sound";
+import music from "./music/malikappuram.mp3";
+// onMouseEnter={() => play()} onMouseLeave={() => stop()}
+import './Styles.css'
+import { ClerkProvider, SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react'
+ 
+ function SideBar() {
+  // const auth  = getAuth();
+  // const handleLogOut = () =>{
+  //   signOut(auth)
+  //   .then(()=>{toast.success("Log Out Successfully");})
+  //   .catch((error) => {console.log(error);});
+  // };
+  
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [play, { stop }] = useSound(music);
+  const {user , isSignedIn} =  useUser();
+  console.log("User",user);
     return (
         <div>
           <div className="sidebar">
@@ -25,7 +33,7 @@ function SideBar() {
             <div class="container-fluid">
               <Link to="/">
                 <h1 class="navbar-brand">
-                    <Link to='/' style={{color:"black", textDecoration:"none"}}><img style={{height:"50px",width:"80px",margin:"5px"}} src={Phool}></img></Link>
+                    <Link to='/' style={{color:"black", textDecoration:"none"}}><button><img style={{height:"50px",width:"80px",margin:"5px"}} src={Phool}></img></button></Link>
                 </h1>
               </Link>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,9 +82,14 @@ function SideBar() {
                   </div>
                   </ul>
                 </div>  
-                <Link to='/AdminDashboard'><Button variant="light" className='btn-md' style={{padding:"5px",textDecoration:"none", color:"black"}}>Admin Dashboard</Button></Link>
-                <Link to='/SignIn'><button class="btn btn-light" type="submit">Sign In</button></Link>
-                <Button onClick={handleLogOut} variant='light'>Log Out</Button>
+                {/* <Link to='/AdminDashboard'><Button variant="light" className='btn-md' style={{padding:"5px",textDecoration:"none", color:"black"}}>Admin Dashboard</Button></Link> */}
+                {/* <Link to='/SignIn'><button class="btn btn-light" type="submit">Sign In</button></Link>
+                <Button variant='light'>Log Out</Button> */}
+                { !isSignedIn && <Link to='/Sign-In'><button class="btn btn-light" type="submit">Sign In</button></Link>}
+                <SignedIn>
+                  <UserButton afterSignOutUrl='/' />
+                </SignedIn>
+                
               </div>
             </nav>
         </div>
@@ -92,6 +105,7 @@ function SideBar() {
           pauseOnHover
           theme="dark"
           />
+         
       </div>
     );
   }

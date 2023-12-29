@@ -12,7 +12,8 @@ app.use(express.json());
 app.use(cors());
 mongoose
   .connect(
-    "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks"
+    // "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks"
+    "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks?retryWrites=true&w=majority"
   )
   .then(console.log("connected db"));
 
@@ -54,16 +55,21 @@ app.get("/Cart", (req, res) => {
       .catch((err) => res.json(err));
   });
 
-  app.post('/deleteCart', async (req, res) => {
+  app.post('/Cart/delete', async (req, res) => {
     const { cartId } = req.body;
-    await Cart.deleteOne({id:cartId});
+    
+    await Cart.deleteOne({"id":cartId});
   });
+
+  // Incense.deleteOne().then(function(){
+  //   console.log("Data Inserted");
+  // });
 
 app.listen(3001, () => {
   console.log("server is running");
 });
 
-app.post("/Incese", async (req, res) => {
+app.post("/Incense", async (req, res) => {
   const { id } = req.body;
   const { name } = req.body;
   const { regularprice } = req.body;
@@ -75,18 +81,42 @@ app.post("/Incese", async (req, res) => {
   const { sideImage1 } = req.body;
   const { sideImage2 } = req.body;
   const { description } = req.body;
-  await Incense.create({ id, name, regularprice, salesprice, category, unit, stocks, mainImage, sideImage1, sideImage2, description});
+  console.log(category);
+  if(category == "incense"){
+    await Incense.create({ id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
+  }
+  else if(category == "cones"){
+    await Decor.create({ id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
+  }else{
+    // await Oil.create({ id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
+  }
 });
 
 app.post("/Cart", async (req, res) => {
   const { id } = req.body;
   const { name } = req.body;
+  const { regularprice } = req.body;
+  const { salesprice } = req.body;
+  const { category } = req.body;
+  const { unit } = req.body;
+  const { stocks } = req.body;
   const { mainImage } = req.body;
-  const { amount } = req.body;
-  const { count } = req.body;
-  await Cart.create({ id, name, mainImage, amount, count });
+  const { sideImage1 } = req.body;
+  const { sideImage2 } = req.body;
+  const { description } = req.body;
+  await Cart.create({id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
 });
-
+        // id: { type: Number, required : true},
+        // name: {type: String, required : true},
+        // regularprice: {type: Number, required : true},
+        // salesprice: {type: Number, required : true},
+        // category: {type: String, required:true},
+        // unit: {type:String, required: true},
+        // stocks: {type: Number, required : true},
+        // mainImage: {type: String,},
+        // sideImage1: {type: String,},
+        // sideImage2: {type: String,},
+        // description: {type: String,},
 
 // id:id, name:name, mainImage:mainImage, amount:amount, count:count
 // app.post("/productId", async (req, res) => {
@@ -94,10 +124,24 @@ app.post("/Cart", async (req, res) => {
 //   await Incense.find({ id });
 // });
 
-// Oil.deleteMany().then(function(){
-//     console.log("Data Inserted");
-// });
 
+
+// Incense.insertMany(
+//   [
+//     {"id": 192,
+//     "name": "Nagaraj INCENSE STICKS",
+//     "regularprice": 199,
+//     "salesprice": 99,
+//     "category" : "Incense",
+//     "unit" : "Box",
+//     "stocks" : "100",
+//     "mainImage": "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120" ,       
+//     "sideImage1": "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
+//     "sideImage2": "https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
+//     "description": "Oudh Incense Sticks exude a dominant oriental-woody fragrance accompanied by soft floral notes of vanilla and musk. This rich aroma is born of a unique ecological process in the Aquilaria trees native to Southeast Asia. These trees secrete a protective resinous substance against a rare parasitic fungus, which after extraction, comes to be known as Oudh. Phool Oudh Natural Incense Sticks are an exquisite amalgamation of Oudh extractions, temple flowers, and natural essential oils. With a rich, earthy scent that has the power to soothe and de-stress. Handcrafted by our women flowercyclers with love and care.Phool Natural Incense Sticks pack consists of 40 units. Each stick is 25.4 cm in length with a long burning time of 40-45 minutes. Ideal for your daily meditation and spiritual rituals. Did you know, the Oudh fragrance was a favorite of even the European Royalty, especially King Louis The XIV, who loved it so dearly that he preferred to wash his clothes in it! Bring home the magic of this aristocratic scent with Phool Oudh Natural Incense Sticks.",
+//     }
+//   ]
+// )
 // Winter.deleteMany().then(function(){
 //     console.log("Data Inserted");
 // });

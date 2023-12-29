@@ -13,7 +13,7 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import Dashboard from './Dashboard';
 import axios from "axios";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function ProductManagement(){
     var today = new Date();
@@ -53,24 +53,27 @@ function ProductManagement(){
         Month = "December";
     }
 
-    const[productid, setProductId] = useState([]);
-    const[productname, setProductName] = useState([]);
-    const[regularprice, setRegularPrice] = useState([]);
-    const[salesprice, setSalesPrice] = useState([]);
-    const[category, setCategory] = useState([]);
-    const[stock, setStock] = useState([]);
-    const[unit, setUnit] = useState([]);
-    const[mainImage, setMainImage] = useState([]);
-    const[sideImage1, setSideImage1] = useState([]);
-    const[sideImage2, setSideImage2] = useState([]);
-    const[description, setDescription] = useState([]);
+    const[productid, setProductId] = useState("");
+    const[productname, setProductName] = useState("");
+    const[regularprice, setRegularPrice] = useState("");
+    const[salesprice, setSalesPrice] = useState("");
+    const[category, setCategory] = useState("");
+    const[stock, setStock] = useState("");
+    const[unit, setUnit] = useState("");
+    const[mainImage, setMainImage] = useState("");
+    const[sideImage1, setSideImage1] = useState("");
+    const[sideImage2, setSideImage2] = useState("");
+    const[description, setDescription] = useState("");
     console.log(productid, productname, regularprice, salesprice, category, stock, unit, mainImage, sideImage1, sideImage2, description);
-
     const[status, setStatus] =useState(true);
-    axios.post('http://localhost:3001/Incense', {productid, productname, regularprice, salesprice, category, stock, unit, mainImage, sideImage1, sideImage2, description})
-        .then((result) => console.log(result))
-        .catch((err) => console.log(err));
-        setStatus(false)
+    
+    const handleSubmit = async() =>{
+        
+    await  axios.post('http://localhost:3001/Incense', {id : productid, name : productname, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stock, mainImage : mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description})
+            .then((result) => console.log("Post",result.data))
+            .catch((err) => console.log(err));
+            setStatus(false);
+    }
         
     return(
         <div>
@@ -135,9 +138,9 @@ function ProductManagement(){
                                 <div className='categoryDropdown'>
                                     <select onChange={(x)=>setCategory(x.target.value)} style={{width:"100%", height:"35px", margin:"10px"}}>
                                         <option value="defalut">Select Here</option>
-                                        <option value="incensesticks">Incense Sticks</option>
+                                        <option value="incense">Incense Sticks</option>
                                         <option value="cones">Cones</option>
-                                        <option value="essentialoils">Esential Oils</option>
+                                        <option value="oils">Esential Oils</option>
                                     </select>
                                 </div>
                             </Col>
@@ -198,17 +201,9 @@ function ProductManagement(){
                         </Row>
                     </Col>
                 </Row>
+                <Button onClick={handleSubmit}>Submit</Button>
             </Container>
         </div>
     );  
 }
 export default ProductManagement;
-
-
-
-
-
-
-
-
-

@@ -27,3 +27,10 @@
     padding: 50px;
     box-shadow: 5px;
 }
+
+.cl-signIn-start{
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

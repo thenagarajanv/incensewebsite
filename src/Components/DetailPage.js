@@ -16,19 +16,21 @@ function DetailPage() {
     let name = "";
     let mainImage = "";
     let amount = 0;
-
+    let salesprice = 0;
+    let unit = 0;
+    let stocks = 0;
     const[status, setStatus] =useState(true);
     const [count, setCount] = useState(0);
     const { id } = useParams();
 
     const handleAddToCart = () => {
         console.log(name, mainImage, amount, id);
-        axios.post('http://localhost:3001/Cart', {id:id})
+        axios.post('http://localhost:3001/Cart', {id:id, name:name, salesprice : salesprice, mainImage : mainImage, unit : unit, stocks : stocks})
         .then((result) => console.log(result))
         .catch((err) => console.log(err));
         setStatus(false)
     }
-
+    
     return (
         <div>
         <Banner />
