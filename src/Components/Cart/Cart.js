@@ -25,7 +25,6 @@ function Cart(){
     }, []); 
   
     const postdelete = (id) =>{
-     
       axios.post(`http://localhost:3001/Cart/delete`, {cartId:id}).then(res => console.log(res))
         .catch(err => console.log(err));
        setProducts(product => product.filter(pro=>pro.id!==id));
@@ -53,7 +52,6 @@ function Cart(){
         </thead>
         <tbody>
         {products.map((products) => (
-          
           <tr>
             <td>
               <Card style={{ width: '18rem' }}>

@@ -6,7 +6,8 @@ import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar  from './SideBar';
-
+import Footer from './Footer';
+import InnerBanner from './InnerBanners';
 function Decor(){
     const[decor,setDecor]=useState([]);
     useEffect(()=>{
@@ -30,6 +31,8 @@ function Decor(){
             ))}  
             </Row>
         </Container>
+        <InnerBanner/>
+        <Footer/>
     </div>
     )
 }

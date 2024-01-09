@@ -6,7 +6,8 @@ import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar  from './SideBar';
-
+import Footer from './Footer';
+import FooterBanner from './FooterBanner';
 
 function FragranceOil(){
 
@@ -32,6 +33,8 @@ function FragranceOil(){
             ))}  
             </Row>
         </Container>
+        <FooterBanner/>
+        <Footer/>
     </div>
     )
 }

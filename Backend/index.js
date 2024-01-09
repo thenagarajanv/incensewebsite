@@ -10,6 +10,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+const db = process.env.MONGO_URL;
 mongoose
   .connect(
     // "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks"

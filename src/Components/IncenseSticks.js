@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar  from './SideBar';
+import TopBanner from './TopBanner';
+import Footer from './Footer';
 
 function IncenseSticks(){
 
@@ -31,6 +33,8 @@ function IncenseSticks(){
             ))}  
             </Row>
         </Container>
+        <TopBanner/>
+        <Footer/>
     </div>
     )
 }

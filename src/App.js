@@ -24,7 +24,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
         <Route path='/' element={<Home />}/>
         <Route path='Cart' element={<Cart/>}/>
         <Route path='/DetailPage/:id' element={<DetailPage />}/>
@@ -35,9 +34,7 @@ function App() {
         <Route path='WinterCollection' element={<WinterCollection/>}/>
         <Route path='Contact' element={<Contact/>}/>
         <Route path='TrackOrder' element={<TrackOrder/>}/>
-
         <Route path='/sign-in' element ={<SignIn />}/>
-        
         <Route path='/AdminDashboard' element={<AdminDashboard/>}/>
         <Route path='/Dashboard' element={<Dashboard/>}/>
         <Route path='/ProductManagement' element={<ProductManagement/>}/>

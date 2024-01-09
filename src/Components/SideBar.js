@@ -61,11 +61,6 @@ import { ClerkProvider, SignedIn, SignedOut, UserButton, useUser } from '@clerk/
                           <a>Fragment Oils</a>
                         </li>
                       </Link>
-                      <Link style={{textDecoration:"none", color:"black",padding:"5px"}} to='/Contact'>
-                        <li class="nav-item">
-                          <a>Contact</a>
-                        </li>
-                      </Link>
                       <Link  style={{textDecoration:"none", color:"black",padding:"5px"}} to='/TrackOrder'>
                         <li class="nav-item">
                         <a>Track Order</a>
@@ -75,14 +70,14 @@ import { ClerkProvider, SignedIn, SignedOut, UserButton, useUser } from '@clerk/
                         <Link to='/Cart'><Button variant="light" className='btn-md' style={{padding:"5px",textDecoration:"none", color:"black"}} onClick={handleShow}>Cart</Button></Link>
                       </div>
                       <div>
-                      <form class="d-flex" role="search" style={{margin:"2px"}}>
+                      {/* <form class="d-flex" role="search" style={{margin:"2px"}}>
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"  />
                           <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
+                      </form> */}
                   </div>
                   </ul>
                 </div>  
-                {/* <Link to='/AdminDashboard'><Button variant="light" className='btn-md' style={{padding:"5px",textDecoration:"none", color:"black"}}>Admin Dashboard</Button></Link> */}
+                <Link to='/AdminDashboard'><Button variant="light" className='btn-md' style={{padding:"5px",textDecoration:"none", color:"black"}}>Admin Dashboard</Button></Link>
                 {/* <Link to='/SignIn'><button class="btn btn-light" type="submit">Sign In</button></Link>
                 <Button variant='light'>Log Out</Button> */}
                 { !isSignedIn && <Link to='/Sign-In'><button class="btn btn-light" type="submit">Sign In</button></Link>}
