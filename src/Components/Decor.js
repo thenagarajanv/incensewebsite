@@ -11,7 +11,7 @@ import InnerBanner from './InnerBanners';
 function Decor(){
     const[decor,setDecor]=useState([]);
     useEffect(()=>{
-        axios.get('http://localhost:3001/Decor').then(x => setDecor(x.data))
+        axios.get('https://trailbackend.onrender.com/Decor').then(x => setDecor(x.data))
         .catch(err => console.log(err))
     }, []);
 

@@ -12,7 +12,7 @@ function FragranceOil(){
 
     const[Winter,setWinter]=useState([]);
     useEffect(()=>{
-        axios.get('http://localhost:3001/Winter').then(x => setWinter(x.data))
+        axios.get('https://trailbackend.onrender.com/Winter').then(x => setWinter(x.data))
         .catch(err => console.log(err))
     }, []);
 

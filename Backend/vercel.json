@@ -1,23 +1,14 @@
 {
     "version":1,
     "builds": [ 
-      { "src": "*.js", "use": "@vercel/node" }
+      { "src": "*.js",
+       "use": "@vercel/node" 
+        }
     ],
-    {
-        "routes": [
-          {
-            "src": "/redirect",
-            "status": 308,
-            "headers": { "Location": "https://example.com/" }
-          },
-          {
-            "routes":[
-                { 
-                    "src": "/(.*)", 
-                    "dest": "/" 
-                }
-            ]
-          }
-        ]
-      }
-  }
+    "routes":[
+        { 
+            "src": "/(.*)", 
+            "dest": "/" 
+        }
+    ]
+}

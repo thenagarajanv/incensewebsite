@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 const  schema=new mongoose.Schema({
         id: { type: Number},
         name: {type: String},
@@ -11,6 +11,8 @@ const  schema=new mongoose.Schema({
         sideImage1: {type: String},
         sideImage2: {type: String},
         description: {type: String},
+        amount: {type: Number},
+        count: {type: Number},
 });
 module.exports = mongoose.model('Incense', schema);
 

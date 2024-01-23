@@ -12,12 +12,15 @@ import music from "./music/malikappuram.mp3";
 import './Styles.css'
 import { ClerkProvider, SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react'
  
- function SideBar() {
+
+function SideBar() {
+  
   // const auth  = getAuth();
   // const handleLogOut = () =>{
-  //   signOut(auth)
-  //   .then(()=>{toast.success("Log Out Successfully");})
-  //   .catch((error) => {console.log(error);});
+    //   signOut(auth)
+    //   .then(()=>{toast.success("Log Out Successfully");})
+    //   .catch((error) => {console.log(error);});
+ 
   // };
   
   const [show, setShow] = useState(false);
@@ -25,7 +28,8 @@ import { ClerkProvider, SignedIn, SignedOut, UserButton, useUser } from '@clerk/
   const handleShow = () => setShow(true);
   const [play, { stop }] = useSound(music);
   const {user , isSignedIn} =  useUser();
-  console.log("User",user);
+  
+  // console.log("User",user);
     return (
         <div>
           <div className="sidebar">
@@ -76,7 +80,7 @@ import { ClerkProvider, SignedIn, SignedOut, UserButton, useUser } from '@clerk/
                       </form> */}
                   </div>
                   </ul>
-                </div>  
+                </div>
                 <Link to='/AdminDashboard'><Button variant="light" className='btn-md' style={{padding:"5px",textDecoration:"none", color:"black"}}>Admin Dashboard</Button></Link>
                 {/* <Link to='/SignIn'><button class="btn btn-light" type="submit">Sign In</button></Link>
                 <Button variant='light'>Log Out</Button> */}

@@ -1,5 +1,4 @@
 import NavBar from "./NavBar";
-import Stack from 'react-bootstrap/Stack';
 import Table from 'react-bootstrap/Table';
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
@@ -7,7 +6,7 @@ import React, { useState, useEffect } from 'react'
 function Orders(){    
   const [products, setProducts] = useState([]);
   useEffect(()=>{
-      axios.get('http://localhost:3001/Cart').then(x => setProducts(x.data))
+      axios.get('https://trailbackend.onrender.com/Cart').then(x => setProducts(x.data))
       .catch(err => console.log(err))
   }, []); 
     return(
@@ -27,7 +26,7 @@ function Orders(){
                 {products.map((x) => (
                     <tr>
                     <td>{x.id}</td>
-                    <td><img src={x.mainImage} height={200} width={100}/></td>
+                    <td><img src={x.mainImage} height={200} width={100} alt=""/></td>
                     <td>{x.name}</td>
                     <td></td>
                     </tr>

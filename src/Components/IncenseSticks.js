@@ -13,7 +13,7 @@ function IncenseSticks(){
 
     const[Incense,setIncense]=useState([]);
     useEffect(()=>{
-        axios.get('http://localhost:3001/Incense').then(x => setIncense(x.data))
+        axios.get('https://trailbackend.onrender.com/Incense').then(x => setIncense(x.data))
         .catch(err => console.log(err))
     }, []);
 
@@ -27,7 +27,7 @@ function IncenseSticks(){
             <Row>
             {Incense.map((x) => (
             <Col sm={4}>
-                <DisplayProducts id={x.id} name={x.name} Image = {x.mainImage} price={x.price} des = {x.description} />
+                <DisplayProducts id={x.id} name={x.name} Image = {x.mainImage} salesprice={x.salesprice} regularprice={x.regularprice} des = {x.description} />
                 <br/>
             </Col>
             ))}  

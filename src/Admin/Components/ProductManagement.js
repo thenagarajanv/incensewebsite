@@ -3,7 +3,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import NavBar from "./NavBar";
 import './Admin.css';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import './ProductManagement.css';
@@ -11,9 +10,8 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import Dashboard from './Dashboard';
 import axios from "axios";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 function ProductManagement(){
     var today = new Date();
@@ -27,29 +25,29 @@ function ProductManagement(){
 	if(minute<10)minute = "0"+minute;
 		var second = today.getSeconds();
     var Month = "";
-	if(month == '1'){
+	if(month === '1'){
         Month = "January";
-    }else if(month == '2'){
+    }else if(month === '2'){
         Month = "Feburay";
-    }else if(month == '3'){
+    }else if(month === '3'){
         Month = "March";
-    }else if(month == '4'){
+    }else if(month === '4'){
         Month = "Apirl";
-    }else if(month == '5'){
+    }else if(month === '5'){
         Month = "May";
-    }else if(month == '6'){
+    }else if(month === '6'){
         Month = "June";
-    }else if(month == '7'){
+    }else if(month === '7'){
         Month = "July";
-    }else if(month == '8'){
+    }else if(month === '8'){
         Month = "Augest";
-    }else if(month == '9'){
+    }else if(month === '9'){
         Month = "September";
-    }else if(month == '10'){
+    }else if(month === '10'){
         Month = "October";
-    }else if(month == '11'){
+    }else if(month === '11'){
         Month = "November";
-    }else if(month == '12'){
+    }else if(month === '12'){
         Month = "December";
     }
 
@@ -64,15 +62,14 @@ function ProductManagement(){
     const[sideImage1, setSideImage1] = useState("");
     const[sideImage2, setSideImage2] = useState("");
     const[description, setDescription] = useState("");
-    console.log(productid, productname, regularprice, salesprice, category, stock, unit, mainImage, sideImage1, sideImage2, description);
-    const[status, setStatus] =useState(true);
+    // console.log(productid, productname, regularprice, salesprice, category, stock, unit, mainImage, sideImage1, sideImage2, description);
     
     const handleSubmit = async() =>{
         
-    await  axios.post('http://localhost:3001/Incense', {id : productid, name : productname, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stock, mainImage : mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description})
+    await  axios.post('https://trailbackend.onrender.com/Incense', {id : productid, name : productname, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stock, mainImage : mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : setDescription(description)})
             .then((result) => console.log("Post",result.data))
             .catch((err) => console.log(err));
-            setStatus(false);
+
     }
         
     return(

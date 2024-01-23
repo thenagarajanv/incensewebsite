@@ -1,5 +1,4 @@
 import { Container } from "react-bootstrap";
-import { products } from "./productsData";
 import DisplayProducts from "./DisplayProduct";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,7 +9,7 @@ function ProductList(){
     const [products, setProducts] = useState([]);
     const[isLoading, setIsLoading] = useState(true);
     useEffect(()=>{
-        axios.get('http://localhost:3001/').then(setIsLoading(false)).then(x => setProducts(x.data))
+        axios.get('https://trailbackend.onrender.com/').then(setIsLoading(false)).then(x => setProducts(x.data))
         .catch(err => console.log(err))
     }, []);
 
@@ -19,10 +18,9 @@ function ProductList(){
             {isLoading ? <ColorRing /> :(
             <Container>
                 <Row>
-
                     {products.map((x) => (
                     <Col sm={4}>
-        <DisplayProducts id={x.id} name={x.name} Image = {x.mainImage} price={x.price} des = {x.description} />
+                    <DisplayProducts id={x.id} name={x.name} Image = {x.mainImage} regularprice={x.regularprice} salesprice={x.salesprice} des = {x.description} />
                    <br/>
                    </Col>
       ))}  

@@ -6,30 +6,35 @@ import ".//Styles.css";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Footer from "./Footer.js";
 import InnerBanner from "./InnerBanners.js";
 import axios from "axios";
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import { SignedIn, useUser } from "@clerk/clerk-react";
 
 function DetailPage() {
-    let name = "";
-    let mainImage = "";
-    let amount = 0;
-    let salesprice = 0;
-    let unit = 0;
-    let stocks = 0;
-    const[status, setStatus] =useState(true);
-    const [count, setCount] = useState(0);
     const { id } = useParams();
+    const { user, isSignedIn, UserButton} = useUser();
+    // console.log(user);
+    
+    const userName = user.fullName;
+    const userID = user.id;
+    const userEmail = user.primaryEmailAddress.emailAddress;
+    // console.log(userName,userID, userEmail);
 
-    const handleAddToCart = () => {
-        console.log(name, mainImage, amount, id);
-        axios.post('http://localhost:3001/Cart', {id:id, name:name, salesprice : salesprice, mainImage : mainImage, unit : unit, stocks : stocks})
-        .then((result) => console.log(result))
-        .catch((err) => console.log(err));
-        setStatus(false)
+    const handleAddToCart = (id, name, mainImage, salesprice, count, stocks, amount) => {
+        if(isSignedIn){
+            <SignedIn>
+            {isSignedIn && axios.post('https://trailbackend.onrender.com/Cart/AddToCart', {id, name, salesprice, mainImage, stocks, amount, count, userID, userName, userEmail})
+                .then((result) => (result))
+                .catch((err) => console.log(err))
+            }
+              <UserButton afterSignOutUrl='/' />
+            </SignedIn>
+        }else{
+            alert("Please SignIn to Add in Cart");
+        }
     }
     
     return (
@@ -38,12 +43,9 @@ function DetailPage() {
             <SideBar />
             <div>
                 {products.map((product) => {
-                if (product.id == id) {
-                    name = product.name;
-                    mainImage = product.mainImage;
-                    amount = product.amount;
-                    return(
-                        <div>
+                    if (product.id === id) {
+                        return(
+                            <div>
                             <Container>
                                 <Row>
                                     <Col lg={6}>
@@ -62,12 +64,12 @@ function DetailPage() {
                                             </div>
                                             </div>
                                             <div class="carousel-item">
-                                            <img src={product.fsImage} class="d-block w-100" alt={product.name}/>
+                                            <img src={product.sideImage1} class="d-block w-100" alt={product.name}/>
                                             <div class="carousel-caption d-none d-md-block">
                                             </div>
                                             </div>
                                             <div class="carousel-item">
-                                            <img src={product.ssImage} class="d-block w-100" alt={product.name}/>
+                                            <img src={product.sideImage2} class="d-block w-100" alt={product.name}/>
                                             <div class="carousel-caption d-none d-md-block">
                                             </div>
                                             </div>
@@ -87,16 +89,11 @@ function DetailPage() {
                                     <Col lg={6}>
                                             <h3>{product.name}</h3>
                                             <p style={{color:"green"}}><bold>Dhoopbatti | Charcoal Free | Ecocert Certified | Free Incense Holder</bold></p>
-                                            <h5>MRP Rs. {product.price}.00</h5>
+                                            <h5>Sales Price: Rs.{product.salesprice}.00</h5>
+                                            <h5>Regular Price: Rs.<i style={{textDecoration: "line-through"}}>{product.regularprice}.00</i></h5>
                                             <p>(incl. of all taxes)</p>
-                                            <div className="QualityScaler">
-                                                <p>Quantity</p>
-                                                <button style={{width:"50px", height:"40px", margin:"5px", padding:"5px"}} type="button" onClick={() =>(count > 0) ? setCount(count - 1) : 0}>-</button>
-                                                <button style={{width:"50px", height:"40px", margin:"5px", padding:"5px"}} type="text" placeholder="0" max={10} min={1} value="1">{count}</button>
-                                                <button style={{width:"50px", height:"40px", margin:"5px", padding:"5px"}} type="button" onClick={() =>(count < 10) ? setCount(count + 1) : 0}>+</button>
-                                            </div>
                                             <div className="AddCart">
-                                                <Link to='/Cart'><Button class="btn" type="button" variant="info" onClick={() => handleAddToCart()} >Add To Cart</Button></Link>
+                                            {isSignedIn && <Link to='/Cart'><Button class="btn" type="button" variant="light" onClick={() => handleAddToCart(product.id, product.name, product.mainImage, product.salesprice, product.count, product.stocks, product.amount)} >Add To Cart</Button></Link>}
                                                     <div className="TogglerRight">
                                                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                                             <div class="offcanvas-header">
@@ -118,6 +115,7 @@ function DetailPage() {
                             </div>
                             )
                         }
+                        return null;
                     })
                 }
             </div>
@@ -128,3 +126,24 @@ function DetailPage() {
 };
 
 export default DetailPage;
+
+// let name = "";
+// let mainImage = "";
+// let amount = 0;
+// let salesprice = 0;
+// let unit = 0;
+// let stocks = 0;
+// let regularprice = 0;
+// let count = 0;
+/* <div className="QualityScaler">
+<p>Quantity</p>
+<button style={{width:"50px", height:"40px", margin:"5px", padding:"5px"}} type="button" onClick={() =>(count > 0) ? setCount(count - 1) : 0}>-</button>
+<button style={{width:"50px", height:"40px", margin:"5px", padding:"5px"}} type="text" placeholder="0" max={10} min={1} value="1">{count}</button>
+<button style={{width:"50px", height:"40px", margin:"5px", padding:"5px"}} type="button" onClick={() =>(count < 10) ? setCount(count + 1) : 0}>+</button>
+</div> */
+// name = product.name;
+// mainImage = product.mainImage;
+// amount = product.amount;
+// salesprice = product.salesprice;
+// let email = user.primaryEmailAddress;
+// let fullName = user.fullName;

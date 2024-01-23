@@ -1,6 +1,7 @@
-const Cart = require("./Models/Cart");
+
 const Incense = require("./Models/Incense");
 const Winter = require("./Models/Winter");
+const User = require("./Models/User");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -11,13 +12,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const db = process.env.MONGO_URL;
-mongoose
-  .connect(
-    // "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks"
+// "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks"
+
+mongoose.connect(
+    // "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks?retryWrites=true&w=majority"
     "mongodb+srv://thenagarajanv:Nagarajan24@cluster0.ngfrvsi.mongodb.net/IncenseSticks?retryWrites=true&w=majority"
-  )
-  .then(console.log("connected db"));
+).then(console.log("connected db"));
 
 app.get("/", (req, res) => {
   Incense.find({})
@@ -32,11 +32,11 @@ app.get("/Winter", (req, res) => {
 });
 
 
-app.get("/Cart", (req, res) => {
-    Cart.find({})
-      .then((x) => res.json(x))
-      .catch((err) => res.json(err));
-  });
+// app.get("/User/GetData", (req, res) => {
+//     Cart.find({})
+//       .then((x) => res.json(x))
+//       .catch((err) => res.json(err));
+//   });
 
  app.get("/Incense", (req, res) => {
     Incense.find({})
@@ -57,15 +57,84 @@ app.get("/Cart", (req, res) => {
       .catch((err) => res.json(err));
   });
 
-  app.post('/Cart/delete', async (req, res) => {
-    const { cartId } = req.body;
-    
-    await Cart.deleteOne({"id":cartId});
+  // app.post('/User/delete', async (req, res) => {
+  //   const { id } = req.body;
+  //   if()
+  // });
+
+  // app.post('/Cart/deleteAll', async (req, res) => {
+  //   await db.Cart.remove({});
+  // });
+  
+  app.post("/Cart/AddToCart", async (req, res) => {
+    const { id } = req.body;
+    const { name } = req.body;
+    const { salesprice } = req.body;
+    const { stocks } = req.body;
+    const { mainImage } = req.body;
+    const { amount } = req.body;
+    const { count } = req.body;
+    const userCart={
+      id: id,
+      name:name,
+      salesprice:salesprice,
+      stocks:stocks,
+      mainImage:mainImage,
+      amount:amount,
+      count:count
+    }
+    //const user = await User.find({id:userID});
+    const {userID}=req.body;
+    const {userEmail}=req.body;
+    const {userName}=req.body;
+    if((await User.find({id:userID})).length== 0){
+      await User.create({id:userID, email: userEmail, name:userName });
+      // await User.create({"id" : id, "name" : name, "salesprice" : salesprice, "stocks" : stocks, "mainImage" : mainImage, "amount" : amount, "count" : count});
+      await User.create(req.body);
+    }
+      if(User.findById(userID)){
+        // const user = await User.find({id:userID});
+        // console.log(user);
+        // if(user[0].cart.find((cartId)=> cartId.id==id)==undefined){
+        // user[0].cart.push({...userCart});
+        // await user[0].save();
+        // }
+        await User.updateOne(
+          { id: userID },
+          { $push: { cart: { ...userCart } } }
+        );
+      }
   });
 
-  // Incense.deleteOne().then(function(){
-  //   console.log("Data Inserted");
-  // });
+  app.post("/User/UpdatePriceQuantity", async (req, res) => {
+    const {userID}=req.body;
+    const {id} = req.body;
+    const {amount} = req.body;
+    const {stocks} = req.body;
+    const {salesprice} = req.body;
+    const {count} = req.body;
+    const user = await User.find({id:userID});
+    
+    await User.updateOne(
+      {id: userID, "cart.id":id},
+      {$set:
+        {
+          "cart.$.amount":amount,
+          "cart.$.stocks":stocks,
+          "cart.$.salesprice":salesprice,
+          "cart.$.count":count,
+        }
+      }
+    ).then(res => console.log(res));
+    // console.log(user);
+  });
+
+  app.get("/User/Get", async (req, res) => {
+    const {userID} = req.body;
+    await User.find({id:userID})
+    .then((x) => res.json(x))
+    .catch((err) => res.json(err));
+  });
 
 app.listen(3001, () => {
   console.log("server is running");
@@ -83,31 +152,33 @@ app.post("/Incense", async (req, res) => {
   const { sideImage1 } = req.body;
   const { sideImage2 } = req.body;
   const { description } = req.body;
-  console.log(category);
   if(category == "incense"){
     await Incense.create({ id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
   }
   else if(category == "cones"){
     await Decor.create({ id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
   }else{
-    // await Oil.create({ id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
+    await Oil.create({ id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
   }
 });
+  
 
-app.post("/Cart", async (req, res) => {
-  const { id } = req.body;
-  const { name } = req.body;
-  const { regularprice } = req.body;
-  const { salesprice } = req.body;
-  const { category } = req.body;
-  const { unit } = req.body;
-  const { stocks } = req.body;
-  const { mainImage } = req.body;
-  const { sideImage1 } = req.body;
-  const { sideImage2 } = req.body;
-  const { description } = req.body;
-  await Cart.create({id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
-});
+
+  // console.log(category);
+
+  // const { id } = req.body;
+  // const { name } = req.body;
+  // const { regularprice } = req.body;
+  // const { salesprice } = req.body;
+  // const { category } = req.body;
+  // const { unit } = req.body;
+  // const { stocks } = req.body;
+  // const { mainImage } = req.body;
+  // const { sideImage1 } = req.body;
+  // const { sideImage2 } = req.body;
+  // const { description } = req.body;
+  // await Cart.create({id : id, name : name, regularprice : regularprice, salesprice : salesprice, category : category, unit : unit, stocks : stocks, mainImage:mainImage, sideImage1 : sideImage1, sideImage2 : sideImage2, description : description});
+// });
         // id: { type: Number, required : true},
         // name: {type: String, required : true},
         // regularprice: {type: Number, required : true},
@@ -126,25 +197,84 @@ app.post("/Cart", async (req, res) => {
 //   await Incense.find({ id });
 // });
 
-
-
 // Incense.insertMany(
-//   [
-//     {"id": 192,
-//     "name": "Nagaraj INCENSE STICKS",
-//     "regularprice": 199,
-//     "salesprice": 99,
-//     "category" : "Incense",
-//     "unit" : "Box",
-//     "stocks" : "100",
-//     "mainImage": "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120" ,       
-//     "sideImage1": "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
-//     "sideImage2": "https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
-//     "description": "Oudh Incense Sticks exude a dominant oriental-woody fragrance accompanied by soft floral notes of vanilla and musk. This rich aroma is born of a unique ecological process in the Aquilaria trees native to Southeast Asia. These trees secrete a protective resinous substance against a rare parasitic fungus, which after extraction, comes to be known as Oudh. Phool Oudh Natural Incense Sticks are an exquisite amalgamation of Oudh extractions, temple flowers, and natural essential oils. With a rich, earthy scent that has the power to soothe and de-stress. Handcrafted by our women flowercyclers with love and care.Phool Natural Incense Sticks pack consists of 40 units. Each stick is 25.4 cm in length with a long burning time of 40-45 minutes. Ideal for your daily meditation and spiritual rituals. Did you know, the Oudh fragrance was a favorite of even the European Royalty, especially King Louis The XIV, who loved it so dearly that he preferred to wash his clothes in it! Bring home the magic of this aristocratic scent with Phool Oudh Natural Incense Sticks.",
-//     }
-//   ]
-// )
-// Winter.deleteMany().then(function(){
+//   [{
+//   id: 1,
+//   name:  "OUDH INCENSE STICKS",
+//   regularprice: 199,
+//   salesprice: 149,
+//   category: "IncenseSticks",
+//   unit: "Box",
+//   stocks: 100,
+//   mainImage: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120" ,
+//   sideImage1: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
+//   sideImage2: "https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
+//   description: "Oudh Incense Sticks exude a dominant oriental-woody fragrance accompanied by soft floral notes of vanilla and musk. This rich aroma is born of a unique ecological process in the Aquilaria trees native to Southeast Asia. These trees secrete a protective resinous substance against a rare parasitic fungus, which after extraction, comes to be known as Oudh. Phool Oudh Natural Incense Sticks are an exquisite amalgamation of Oudh extractions, temple flowers, and natural essential oils. With a rich, earthy scent that has the power to soothe and de-stress. Handcrafted by our women flowercyclers with love and care.Phool Natural Incense Sticks pack consists of 40 units. Each stick is 25.4 cm in length with a long burning time of 40-45 minutes. Ideal for your daily meditation and spiritual rituals. Did you know, the Oudh fragrance was a favorite of even the European Royalty, especially King Louis The XIV, who loved it so dearly that he preferred to wash his clothes in it! Bring home the magic of this aristocratic scent with Phool Oudh Natural Incense Sticks.",
+//   amount: 0,
+//   count: 0,
+// },
+// {
+//   id: 2,
+//   name:  "LAVEANDER INCENSE STICKS",
+//   regularprice: 199,
+//   salesprice: 149,
+//   category: "IncenseSticks",
+//   unit: "Box",
+//   stocks: 100,
+//   mainImage: "https://phool.co/cdn/shop/products/IMG_5517.jpg?v=1610699394",
+//   sideImage1: "https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
+//   sideImage2: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
+//   description: "Lavender Incense Sticks carry a distinctly sweet and mossy scent, accompanied with delicate hints of camphor and a touch of spice. This popular fragrance is harvested from the lavender flower plants that originated in Mediterranean Europe, through a long & tedious process of steam distillation. ",
+//   amount: 0,
+//   count: 0,
+// },
+// {
+//   id: 3,
+//   name:  "ORANGE INCENSE STICKS",
+//   regularprice: 199,
+//   salesprice: 149,
+//   category: "IncenseSticks",
+//   unit: "Box",
+//   stocks: 100,
+//   mainImage: "https://phool.co/cdn/shop/products/IMG_5354.jpg?v=1660635311" ,
+//   sideImage1: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
+//   sideImage2:"https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
+//   description: "Orange Incense Sticks possess a delightful and uplifting fragrance that is reminiscent of fresh, juicy oranges. The vibrant and citrus fragrance is a byproduct of the essential oil derived from the orange fruit peel, native to Southeast Asia. It is the ideal fragrance for anyone who loves the fruit in any form. Phool Orange Natural Incense Sticks are a fresh amalgamation of sacred temple flowers, pure essential oil and organic orange peels.",
+//   amount: 0,
+//   count: 0,
+// },
+// {
+//   id: 4,
+//   name: "TEA-TREE INCENSE STICKS ",
+//   regularprice: 199,
+//   salesprice: 149,
+//   category: "IncenseSticks",
+//   unit: "Box",
+//   stocks: 100,
+//   mainImage: "https://phool.co/cdn/shop/products/IMG_4621.jpg?v=1660635216" ,
+//   sideImage1: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
+//   sideImage2: "https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
+//   description: "Tea Tree Incense Sticks have a distinctive and powerful aroma with a hint of camphor. This magical aroma is created by harvesting the leaves of the Tea Tree, scientifically known as Melaleuca alternifolia, and native to Australia. It is one of the most popular naturally occurring substances globally, due to its antimicrobial and antifungal qualities.",
+//   amount: 0,
+//   count: 0,
+// },
+// {
+//   id: 5,
+//   name:  "EUCALYPTUS INCENSE STICKS ",
+//   regularprice: 199,
+//   salesprice: 149,
+//   category: "IncenseSticks",
+//   unit: "Box",
+//   stocks: 100,
+//   mainImage: "https://phool.co/cdn/shop/products/IMG_5201.jpg?v=1660635283" ,
+//   sideImage1: "https://phool.co/cdn/shop/products/IMG_4690.jpg?v=1603096120",
+//   sideImage2: "https://phool.co/cdn/shop/products/FRAGRANCECARD-01.jpg?v=1610697119" ,
+//   description: "Eucalyptus Incense Sticks carry a distinctive and robust aroma that is often identified as cool and invigorating. The core contributor to this fragrance is the Eucalyptus essential oil, extracted from the leaves of the Eucalyptus tree, primarily the species known as Eucalyptus globulus, endemic to Australia. The freshness of this aroma is a positive and powerful mood uplifter.",
+//   amount: 0,
+//   count: 0,
+// }])
+
+// Incense.deleteMany().then(function(){
 //     console.log("Data Inserted");
 // });
 

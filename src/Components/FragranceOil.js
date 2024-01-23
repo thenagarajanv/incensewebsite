@@ -13,7 +13,7 @@ function FragranceOil(){
 
     const[fragrance,setFragrance]=useState([]);
     useEffect(()=>{
-        axios.get('http://localhost:3001/Oil').then(x => setFragrance(x.data))
+        axios.get('https://trailbackend.onrender.com/Oil').then(x => setFragrance(x.data))
         .catch(err => console.log(err))
     }, []);
 
